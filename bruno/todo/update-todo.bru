@@ -1,0 +1,18 @@
+meta {
+  name: update-todo
+  type: http
+  seq: 4
+}
+
+put {
+  url: http://localhost:3000/todo/1
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "title": "test-edit",
+    "description": "test-edit" 
+  }
+}
