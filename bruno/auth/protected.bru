@@ -1,0 +1,22 @@
+meta {
+  name: protected
+  type: http
+  seq: 3
+}
+
+get {
+  url: http://localhost:3000/auth/protected
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcxMTQ4MDI2NSwiZXhwIjoxNzExNDgwNTY1fQ.yhmJ1hsk-BkEFrH522-hUr9Vd-UnXKgwF4HZE46ReO8
+}
+
+body:json {
+  {
+    "email": "testuser@yahoo.com",
+    "password": "pass12"
+  }
+}

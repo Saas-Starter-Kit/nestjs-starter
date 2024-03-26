@@ -6,7 +6,9 @@ import {
   Body,
   Put,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
+import { CreateTodoDto } from './dto/create-todo.dto';
 
 import { TodoService } from './todo.service';
 import { Todo as TodoModel } from '@prisma/client';
@@ -16,8 +18,8 @@ export class TodoController {
   constructor(private readonly TodoService: TodoService) {}
 
   @Get('todo/:id')
-  async getTodoById(@Param('id') id: string): Promise<TodoModel> {
-    return this.TodoService.getOneTodo({ id: Number(id) });
+  async getTodoById(@Param('id', ParseIntPipe) id: number): Promise<TodoModel> {
+    return this.TodoService.getOneTodo({ id });
   }
 
   @Get('todos')
@@ -26,9 +28,7 @@ export class TodoController {
   }
 
   @Post('todo')
-  async createTodo(
-    @Body() TodoData: { title: string; description: string },
-  ): Promise<TodoModel> {
+  async createTodo(@Body() TodoData: CreateTodoDto): Promise<TodoModel> {
     const { title, description } = TodoData;
     return this.TodoService.createTodo({
       title,
@@ -38,19 +38,19 @@ export class TodoController {
 
   @Put('todo/:id')
   async updateTodo(
-    @Param('id') id: string,
-    @Body() TodoData: { title?: string; description?: string },
+    @Param('id', ParseIntPipe) id: number,
+    @Body() TodoData: CreateTodoDto,
   ): Promise<TodoModel> {
     const { title, description } = TodoData;
 
     return this.TodoService.updateTodo({
-      where: { id: Number(id) },
+      where: { id },
       data: { title, description },
     });
   }
 
   @Delete('todo/:id')
-  async deleteTodo(@Param('id') id: string): Promise<TodoModel> {
-    return this.TodoService.deleteTodo({ id: Number(id) });
+  async deleteTodo(@Param('id', ParseIntPipe) id: number): Promise<TodoModel> {
+    return this.TodoService.deleteTodo({ id });
   }
 }

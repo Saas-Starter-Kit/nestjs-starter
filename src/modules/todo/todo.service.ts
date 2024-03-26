@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../database/prisma.service';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { PrismaService } from 'nestjs-prisma';
 import { Todo, Prisma } from '@prisma/client';
 
 @Injectable()
@@ -9,13 +9,17 @@ export class TodoService {
   async getOneTodo(
     TodoWhereUniqueInput: Prisma.TodoWhereUniqueInput,
   ): Promise<Todo | null> {
-    return this.prisma.todo.findUnique({
+    const res = await this.prisma.todo.findUnique({
       where: TodoWhereUniqueInput,
     });
+
+    return res;
   }
 
   async getTodos(): Promise<Todo[]> {
-    return this.prisma.todo.findMany();
+    const res = await this.prisma.todo.findMany();
+
+    return res;
   }
 
   async createTodo(data: Prisma.TodoCreateInput): Promise<Todo> {

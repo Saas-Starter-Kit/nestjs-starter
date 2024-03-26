@@ -1,0 +1,18 @@
+meta {
+  name: signup
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:3000/auth/signup
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "testuser@yahoo.com",
+    "password": "pass12"
+  }
+}
