@@ -10,6 +10,16 @@ services:
       - postgres:/var/lib/postgresql/data
     ports:
       - '5432:5432'
-
-volumes:
-  postgres:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nest-docker-postgres
+    environment:
+      - PORT=${PORT}
+    ports:
+      - '3000:3000'
+    depends_on:
+      - db
+    volumes:
+      - ./src:/app/src
